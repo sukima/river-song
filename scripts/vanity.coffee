@@ -43,6 +43,8 @@ module.exports = (robot) ->
     about ( \s* me | \s+ you ( rself )? | \s+ self )?
     |
     who \s+ ( are|r ) \s+ ( you|u )
+    |
+    bio $
   ///i, sendBio
   robot.respond ///
     what \s+ do \s+ you \s+ look \s+ like
