@@ -8,17 +8,23 @@
 #   None
 #
 # Commands:
-#   hubot prowl me with YOUR_PROWL_API_KEY - register to recive messages
-#   hubot prowl off - unregister
+#   hubot prowl help - explain to the user what this script does
+#   hubot prowl me with YOUR_PROWL_API_KEY - register user to recive messages
+#   hubot prowl off - unregister user
 #   hubot prowl list - list all registered users
 #   @user message - send a message to registered user
 #   @all message - send a message to all regigistered users
+#
+# Notes:
+#   To use this service you will need to register a device and account at
+#   http://www.prowlapp.com/
 #
 # Author:
 #   sukima
 #   refactored from marten's notify.coffee in hubot-scripts
 #
 Prowl = require "prowler"
+PROWL_URL = "http://www.prowlapp.com/"
 
 class Notifier
   constructor: (@robot) ->
@@ -42,7 +48,12 @@ class Notifier
   add: (user, apikey) ->
     @robot.brain.data.notifiers[user.toLowerCase()] = apikey.toLowerCase()
   remove: (user) ->
-    delete @robot.brain.data.notifiers[user.toLowerCase()]
+    user = user.toLowerCase()
+    if @robot.brain.data.notifiers[user]?
+      delete @robot.brain.data.notifiers[user]
+      true
+    else
+      false
   getApiKeyFor: (user) ->
     @robot.brain.data.notifiers[user.toLowerCase()]
   getList: ->
@@ -56,10 +67,20 @@ class Notifier
       names[i] = "and #{names[i]}"
     if names.length > 2
       delimiter = ", "
-    return names.join(delimiter)
+    names.join(delimiter)
 
 module.exports = (robot) ->
   notifier = new Notifier(robot)
+
+  robot.respond /prowl( help)?/i, (msg) ->
+    name = robot.name
+    msg.send """
+      I can send messages to people when you reference them with "@username message".
+      I use a service called Prowl which you can sign up for at #{PROWL_URL}.
+      To start using this just let me know your Prowl API key: "#{name} prowl on XXXXXXXX".
+      And if you want me to stop just tell me: "#{name} prowl off".
+      To see who has given me their API key: "#{name} prowl list".
+      """
 
   robot.hear /@(\w+)/i, (msg) ->
     username = msg.match[1].toLowerCase()
@@ -76,8 +97,13 @@ module.exports = (robot) ->
       msg.send "Sorry, #{username} has not registered their prowl api key yet."
  
   robot.respond /prowl off/i, (msg) ->
-    notifier.remove(msg.message.user.name)
-    msg.send "Ok, your prowl api key has been forgotten."
+    if notifier.remove(msg.message.user.name)
+      msg.send "Ok, your prowl api key has been forgotten."
+    else
+      msg.send "Looks like your not registered anyway. No worries."
+
+  robot.respond /prowl (me|on)?/i, (msg) ->
+    msg.send "I would love to, but I'll need your Prowl API key. Get it at #{PROWL_URL}"
 
   robot.respond /prowl (?:me with|on) (\w+)/i, (msg) ->
     notifier.add msg.message.user.name, msg.match[1]
