@@ -28,7 +28,7 @@ PROWL_URL = "http://www.prowlapp.com/"
 
 class Notifier
   constructor: (@robot) ->
-    @robot.brain.data.notifiers ?= {}
+    @robot.brain.data.prowl_notifiers ?= {}
   send: (opts) ->
     notifies = []
     username = opts.username.toLowerCase()
@@ -37,7 +37,7 @@ class Notifier
     else
       opts.message
     notify_all = ( username is "all" or username is "everyone" )
-    for user, apikey of @robot.brain.data.notifiers
+    for user, apikey of @robot.brain.data.prowl_notifiers
       if ( notify_all and user isnt opts.sender.toLowerCase() ) or
       ( not notify_all and user.match ///\b#{username}\b///i )
         notifies.push apikey
@@ -50,20 +50,20 @@ class Notifier
         description: message
     notifies.length
   add: (user, apikey) ->
-    @robot.brain.data.notifiers[user.toLowerCase()] = apikey.toLowerCase()
+    @robot.brain.data.prowl_notifiers[user.toLowerCase()] = apikey.toLowerCase()
   remove: (user) ->
     user = user.toLowerCase()
-    if @robot.brain.data.notifiers[user]?
-      delete @robot.brain.data.notifiers[user]
+    if @robot.brain.data.prowl_notifiers[user]?
+      delete @robot.brain.data.prowl_notifiers[user]
       true
     else
       false
   getApiKeyFor: (user) ->
-    @robot.brain.data.notifiers[user.toLowerCase()]
+    @robot.brain.data.prowl_notifiers[user.toLowerCase()]
   getList: ->
     names = []
     delimiter = ""
-    names.push name for name of @robot.brain.data.notifiers
+    names.push name for name of @robot.brain.data.prowl_notifiers
     if names.length is 0
       return false
     if names.length is 2
