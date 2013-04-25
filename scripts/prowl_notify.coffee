@@ -36,12 +36,12 @@ class Notifier
       "#{opts.sender} wanted to get in touch with you"
     else
       opts.message
-    if username is "all" or username is "everyone"
-      for user, apikey of @robot.brain.data.notifiers
-        notifies.push apikey unless user is opts.sender.toLowerCase()
-      return -1 if notifies.length is 0
-    else if apikey = @robot.brain.data.notifiers[username]
-      notifies.push apikey
+    notify_all = ( username is "all" or username is "everyone" )
+    for user, apikey of @robot.brain.data.notifiers
+      if ( notify_all and user isnt opts.sender.toLowerCase() ) or
+      ( not notify_all and user.match ///\b#{username}\b///i )
+        notifies.push apikey
+    return -1 if notify_all and notifies.length is 0
     for notifier in notifies
       notification = Prowl.connection(apikey)
       notification.send
