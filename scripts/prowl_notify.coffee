@@ -12,8 +12,8 @@
 #   hubot prowl me with YOUR_PROWL_API_KEY - register user to recive messages
 #   hubot prowl off - unregister user
 #   hubot prowl list - list all registered users
-#   @user message - send a message to registered user
-#   @all message - send a message to all regigistered users
+#   hubot tell user message - send a message to registered user
+#   hubot tell everyone message - send a message to all regigistered users
 #
 # Notes:
 #   To use this service you will need to register a device and account at
@@ -32,6 +32,10 @@ class Notifier
   send: (opts) ->
     notifies = []
     username = opts.username.toLowerCase()
+    message = if not opts.message? or opts.message is ""
+      "#{opts.sender} wanted to get in touch with you"
+    else
+      opts.message
     if username is "all" or username is "everyone"
       for user, apikey of @robot.brain.data.notifiers
         notifies.push apikey unless user is opts.sender.toLowerCase()
@@ -42,8 +46,8 @@ class Notifier
       notification = Prowl.connection(apikey)
       notification.send
         application: "#{@robot.name} notify"
-        event: "Mention"
-        description: opts.message
+        event: "Message"
+        description: message
     notifies.length
   add: (user, apikey) ->
     @robot.brain.data.notifiers[user.toLowerCase()] = apikey.toLowerCase()
@@ -75,20 +79,21 @@ module.exports = (robot) ->
   robot.respond /prowl( help)?$/i, (msg) ->
     name = robot.name
     msg.send """
-      I can send messages to people when you reference them with "@username message".
+      I can send messages to people, just let me now with "#{name} tell username something".
       I use a service called Prowl which you can sign up for at #{PROWL_URL}.
       To start using this just let me know your Prowl API key: "#{name} prowl on XXXXXXXX".
       And if you want me to stop just tell me: "#{name} prowl off".
       To see who has given me their API key: "#{name} prowl list".
       """
 
-  robot.hear /@(\w+)/i, (msg) ->
+  robot.respond /(?:tell|message|notify) (\w+)\s*(.*)$/i, (msg) ->
     username = msg.match[1].toLowerCase()
+    message = msg.match[2]
     username = "everyone" if username is "all" # Normalize for output below
     result = notifier.send
       username: username
       sender: msg.message.user.name
-      message: msg.message.text
+      message: message
     if result > 0
       msg.send "I'll let #{username} know. :iphone:"
     else if result < 0
