@@ -72,7 +72,7 @@ class Notifier
 module.exports = (robot) ->
   notifier = new Notifier(robot)
 
-  robot.respond /prowl( help)?/i, (msg) ->
+  robot.respond /prowl( help)?$/i, (msg) ->
     name = robot.name
     msg.send """
       I can send messages to people when you reference them with "@username message".
@@ -96,20 +96,20 @@ module.exports = (robot) ->
     else
       msg.send "Sorry, #{username} has not registered their prowl api key yet."
  
-  robot.respond /prowl off/i, (msg) ->
+  robot.respond /prowl off$/i, (msg) ->
     if notifier.remove(msg.message.user.name)
       msg.send "Ok, your prowl api key has been forgotten."
     else
       msg.send "Looks like your not registered anyway. No worries."
 
-  robot.respond /prowl (me|on)?/i, (msg) ->
+  robot.respond /prowl (me|on)$/i, (msg) ->
     msg.send "I would love to, but I'll need your Prowl API key. Get it at #{PROWL_URL}"
 
-  robot.respond /prowl (?:me with|on) (\w+)/i, (msg) ->
+  robot.respond /prowl (?:me with|on) (\w+)$/i, (msg) ->
     notifier.add msg.message.user.name, msg.match[1]
     msg.send "Ok, your prowl api key has been memorized."
 
-  robot.respond /prowl list/i, (msg) ->
+  robot.respond /prowl list$/i, (msg) ->
     if response = notifier.getList()
       msg.send "I know how to notify #{response} via prowl."
       if apikey = notifier.getApiKeyFor(msg.message.user.name)
