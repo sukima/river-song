@@ -40,12 +40,10 @@ class Notifier
     for user, apikey of @robot.brain.data.prowl_notifiers
       if ( notify_all and user isnt opts.sender.toLowerCase() ) or
       ( not notify_all and user.match ///\b#{username}\b///i )
-        msg.send "[debug] Asked for #{username}, found #{user}"
         notifies.push apikey
     return -1 if notify_all and notifies.length is 0
     for notifier in notifies
-      msg.send "[debug] sending '#{message}' to '#{apikey}'"
-      notification = Prowl.connection(apikey)
+      notification = Prowl.connection(notifier)
       notification.send
         application: "#{@robot.name} notify"
         event: "Message"
