@@ -24,7 +24,6 @@
   },
 
   "dependencies": {
-    "redis":         ">= 0.7.2",
     "prowler":       ">= 0.0.3",
     "soupselect":    ">= 0.2.0",
     "htmlparser":    ">= 1.7.6",
