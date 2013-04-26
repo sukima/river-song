@@ -29,7 +29,7 @@ PROWL_URL = "http://www.prowlapp.com/"
 class Notifier
   constructor: (@robot) ->
     @robot.brain.data.prowl_notifiers ?= {}
-  send: (opts) ->
+  send: (msg, opts) ->
     notifies = []
     username = opts.username.toLowerCase()
     message = if not opts.message? or opts.message is ""
@@ -40,9 +40,11 @@ class Notifier
     for user, apikey of @robot.brain.data.prowl_notifiers
       if ( notify_all and user isnt opts.sender.toLowerCase() ) or
       ( not notify_all and user.match ///\b#{username}\b///i )
+        msg.send "[debug] Asked for #{username}, found #{user}"
         notifies.push apikey
     return -1 if notify_all and notifies.length is 0
     for notifier in notifies
+      msg.send "[debug] sending '#{message}' to '#{apikey}'"
       notification = Prowl.connection(apikey)
       notification.send
         application: "#{@robot.name} notify"
@@ -67,10 +69,12 @@ class Notifier
     if names.length is 0
       return false
     if names.length is 2
-      i = names.length - 1
-      names[i] = "and #{names[i]}"
+      delimiter = " "
     if names.length > 2
       delimiter = ", "
+    if names.length > 1
+      i = names.length - 1
+      names[i] = "and #{names[i]}"
     names.join(delimiter)
 
 module.exports = (robot) ->
@@ -90,7 +94,7 @@ module.exports = (robot) ->
     username = msg.match[1].toLowerCase()
     message = msg.match[2]
     username = "everyone" if username is "all" # Normalize for output below
-    result = notifier.send
+    result = notifier.send msg,
       username: username
       sender: msg.message.user.name
       message: message
