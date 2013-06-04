@@ -14,19 +14,20 @@
 #   jmoses
 
 appendAmbush = (data, toUser, fromUser, message) ->
-  data[toUser.name] ||= []
+  data[toUser.name] or= []
+  
   data[toUser.name].push [fromUser.name, message]
-
+  
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}
 
-  robot.respond /ambush (.*): (.*)/i, (msg) ->
+  robot.respond /ambush (.*?): (.*)/i, (msg) ->
     users = robot.brain.usersForFuzzyName(msg.match[1].trim())
     if users.length is 1
       user = users[0]
       appendAmbush(robot.brain.data.ambushes, user, msg.message.user, msg.match[2])
-      msg.send "Ambush prepared for #{user.name}."
+      msg.send "Ambush prepared"
     else if users.length > 1
       msg.send "Too many users like that"
     else
