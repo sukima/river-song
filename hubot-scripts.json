@@ -1,5 +1,5 @@
 [
-  "file-brain.coffee",
+  "redis-brain.coffee",
   "achievement_unlocked.coffee",
   "ackbar.coffee",
   "adult.coffee",
