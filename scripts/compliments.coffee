@@ -49,7 +49,7 @@ class Complimentor
   @i_love_you: =>
     "I love you"
   @you_make_me: =>
-    "You make me#{@maybe @adverbs}#{@verb()}#{@maybe 0.25, @adverbs}#{@emphatic()}"
+    "You make me#{@maybe @adverbs}#{@adverb()}#{@maybe 0.25, @adverbs}#{@emphatic()}"
   @you_have: =>
     "You have#{@adjectives()}#{@plural_attribute()}#{@emphatic()}"
   @you_have_a: =>
