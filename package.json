@@ -20,15 +20,15 @@
     "url": "https://github.com/github/hubot.git"
   },
   "dependencies": {
-    "htmlparser": ">= 1.7.6",
-    "hubot": ">= 2.5.0",
-    "hubot-scripts": ">= 2.4.2",
+    "htmlparser": "^1.7.7",
+    "hubot": "^2.8.2",
+    "hubot-scripts": "^2.5.16",
     "hubot-slack": "^2.2.0",
-    "prowler": ">= 0.0.3",
-    "soupselect": ">= 0.2.0"
+    "prowler": "0.0.3",
+    "soupselect": "^0.2.0"
   },
   "engines": {
-    "node": ">= 0.8.x",
-    "npm": ">= 1.1.x"
+    "node": "^0.10.0",
+    "npm": "^1.5.0"
   }
 }
