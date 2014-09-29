@@ -1,1 +1,1 @@
-web: bin/hubot -a campfire -n "river"
+web: bin/hubot -a slack -n "river"

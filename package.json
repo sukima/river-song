@@ -23,6 +23,7 @@
     "htmlparser": ">= 1.7.6",
     "hubot": ">= 2.5.0",
     "hubot-scripts": ">= 2.4.2",
+    "hubot-slack": "^2.2.0",
     "prowler": ">= 0.0.3",
     "soupselect": ">= 0.2.0"
   },
