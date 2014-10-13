@@ -4,7 +4,7 @@ sshCommand = "/home/suki/dev-tritarget-org/deploy.sh --notify --rsync"
 
 sendError = (msg, error) ->
   msg.send "Ugh... Something didn't agree with me. :mask:"
-  msg.send err.message || err
+  msg.send error.message || error
 
 deployTritarget = (msg, privateKey, branch="") ->
   conn = new Connection()
