@@ -1,3 +1,4 @@
+fs         = require "fs"
 Connection = require "ssh2"
 
 sshCommand = "/home/suki/dev-tritarget-org/deploy.sh --notify --rsync"
@@ -37,8 +38,10 @@ module.exports = (robot) ->
       sendError(msg, err)
 
   robot.router.post "/deploy/dev-tritarget-org", (req, res) ->
-    robot.brain.data.tritarget_key = req.body
-    res.end "Saved"
+    fs.readFile req.files.key.path, (err, data) ->
+      return res.end err if err
+      robot.brain.data.tritarget_key = data.toString("utf8")
+      res.end "Saved"
 
   robot.router.get "/deploy/dev-tritarget-org", (req, res) ->
     return res.end("Ok") unless room?
