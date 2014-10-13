@@ -1,7 +1,7 @@
 fs         = require "fs"
 Connection = require "ssh2"
 
-sshCommand = "/home/suki/dev-tritarget-org/deploy.sh --notify --rsync"
+sshCommand = "/home/suki/dev-tritarget-org/deploy.sh --detach --notify --rsync"
 
 sendError = (msg, error) ->
   msg.send "Ugh... Something didn't agree with me. :mask:"
