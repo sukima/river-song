@@ -32,7 +32,7 @@ youre_welcome = () ->
   [pick_one(phrases), pick_one(punc), " ", pick_one(emoji)].join('')
 
 module.exports = (robot) ->
-  robot.hear ///(thx|thanks|thank you),?\s+#{robot.name}///i, (msg) ->
+  robot.hear ///(thx|thanks|thank\s+you),?\s+#{robot.name}///i, (msg) ->
     msg.send youre_welcome()
 
   robot.respond /(thx|thanks|thank you)/i, (msg) ->
