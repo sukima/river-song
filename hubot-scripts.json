@@ -1,5 +1,6 @@
 [
   "redis-brain.coffee",
+  "hubot-heroku-keepalive",
   "achievement_unlocked.coffee",
   "ackbar.coffee",
   "adult.coffee",
