@@ -1,4 +1,5 @@
 [
+  "hubot-darts",
   "hubot-heroku-keepalive",
   "hubot-table-flip"
 ]

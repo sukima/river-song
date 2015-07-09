@@ -22,6 +22,7 @@
   "dependencies": {
     "htmlparser": "^1.7.7",
     "hubot": "^2.8.2",
+    "hubot-darts": "^1.0.1",
     "hubot-heroku-keepalive": "0.0.4",
     "hubot-scripts": "^2.16.1",
     "hubot-slack": "^3.2.1",
