@@ -24,7 +24,6 @@
     "hubot": "^2.8.2",
     "hubot-darts": "^1.0.1",
     "hubot-google-images": "^0.2.0",
-    "hubot-heroku-keepalive": "0.0.4",
     "hubot-scripts": "^2.16.1",
     "hubot-slack": "^3.2.1",
     "hubot-table-flip": "^0.1.0",
