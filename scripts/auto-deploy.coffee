@@ -5,7 +5,7 @@
 #   bluebird: "^2.9.34"
 #
 # Configuration:
-#   None
+#   AUTO_DEPLOY_DEBUG - verbose logging
 #
 # Commands:
 #   None
@@ -46,7 +46,7 @@ module.exports = (robot) ->
       .catch(logError)
 
   isDeployable = (req) ->
-    req.header("HTTP_X_GITHUB_EVENT") == "pull_request" &&
+    req.header("X-GitHub-Event") == "pull_request" &&
     req.body.action == "closed" &&
     req.body.pull_request.merged
 
