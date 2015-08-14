@@ -28,7 +28,6 @@
     "hubot-scripts": "^2.16.1",
     "hubot-slack": "^3.2.1",
     "hubot-table-flip": "^0.1.0",
-    "prowler": "0.0.3",
     "soupselect": "^0.2.0",
     "ssh2": "^0.3.6"
   },
