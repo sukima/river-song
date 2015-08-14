@@ -50,6 +50,6 @@ module.exports = (robot) ->
     req.body.action == "closed" &&
     req.body.pull_request.merged
 
-  robot.router.post "/auto-deploy", (req, res) ->
+  robot.router.post "/hubot/auto-deploy", (req, res) ->
     res.end("Ok")
     deploy() if isDeployable(req)
