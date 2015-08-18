@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bluebird": "^2.9.34",
+    "google-images": "^0.1.0",
     "htmlparser": "^1.7.7",
     "hubot": "^2.8.2",
     "hubot-darts": "^1.0.1",
