@@ -16,17 +16,22 @@
 Promise = require "bluebird"
 google = Promise.promisifyAll(require "google-images")
 
-getSandwiches = (sudo) ->
-  if sudo
-    google.searchAsync("sandwich")
+getSandwiches = (term, authorized) ->
+  if authorized
+    google.searchAsync(term)
       .map (result) -> result.url
   else
     Promise.reject()
 
 module.exports = (robot) ->
 
-  robot.respond /(sudo )?make( me)?( a)? sandwict?s?h/i, (msg) ->
-    getSandwiches(msg.match[1] is "sudo ")
+  robot.respond /(sudo )?make(?: me)?(?: a)? (.*)/i, (msg) ->
+    sudo = msg.match[1] is "sudo "
+    term = if /sa(nd?w|mm)ict?s?h/.test(msg.match[2])
+      "sandwich"
+    else
+      msg.match[2]
+    getSandwiches(term, sudo)
       .then (sandwiches) ->
         msg.reply "Okay #{msg.random sandwiches}"
       .catch ->
