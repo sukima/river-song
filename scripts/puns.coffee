@@ -85,7 +85,7 @@ module.exports = (robot) ->
   robot.respond /((show|give) me (a )?)?pun( me)?/i, (msg) ->
     pun = msg.random PUNS
     if pun.text
-      sendMsgReaction(msg, pun.question or pun)()
+      sendMsgReaction(msg, pun.text or pun)()
     else
       msg.send pun.question
       setTimeout sendMsgReaction(msg, pun.answer), ANSWER_DELAY
